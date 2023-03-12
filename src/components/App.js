@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Router from "./Router";
+import myBase from "../myBase";
+import { auth } from "../myBase";
 
 function App() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(auth.currentUser);
   return (
     <>
       <Router isLogin={isLogin} />

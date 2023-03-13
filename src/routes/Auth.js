@@ -1,8 +1,15 @@
 import React, { useState } from "react";
+import { auth } from "../myBase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [newAccount, setNewAccount] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleLogin = (event) => {
     const {
@@ -13,11 +20,23 @@ const Auth = () => {
     } else if (name === "password") {
       setPassword(value);
     }
-    console.log(email);
-    console.log(password);
   };
-  const handleSubmit = (e) => {
+  //
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      let data;
+      if (newAccount) {
+        //create new account
+        data = await createUserWithEmailAndPassword(auth, email, password);
+      } else {
+        //login
+        data = await signInWithEmailAndPassword(auth, email, password);
+      }
+      console.log(data);
+    } catch (error) {
+      setErrorMessage(error.message.replace("Firebase: ", ""));
+    }
   };
 
   return (
@@ -26,7 +45,7 @@ const Auth = () => {
         <form onSubmit={handleSubmit}>
           <input
             name="email"
-            type="text"
+            type="email"
             placeholder="Email"
             value={email}
             required
@@ -39,8 +58,13 @@ const Auth = () => {
             value={password}
             required
             onChange={handleLogin}
+            autoComplete="off"
           />
-          <input type="submit" value="Log in" />
+          <input
+            type="submit"
+            value={newAccount ? "Create Account" : "Log-in"}
+          />
+          {errorMessage}
         </form>
       </div>
       <div>

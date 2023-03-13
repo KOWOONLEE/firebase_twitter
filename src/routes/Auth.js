@@ -38,10 +38,15 @@ const Auth = () => {
       setErrorMessage(error.message.replace("Firebase: ", ""));
     }
   };
-
+  const selectToggle = () => {
+    setNewAccount((prev) => !prev);
+  };
   return (
     <>
       <div>
+        <div onClick={selectToggle}>
+          {newAccount ? "Sign-in" : "Create Account"}
+        </div>
         <form onSubmit={handleSubmit}>
           <input
             name="email"
@@ -62,7 +67,7 @@ const Auth = () => {
           />
           <input
             type="submit"
-            value={newAccount ? "Create Account" : "Log-in"}
+            value={newAccount ? "Create Account" : "Sign-in"}
           />
           {errorMessage}
         </form>

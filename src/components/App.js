@@ -5,11 +5,13 @@ import { auth } from "../myBase";
 function App() {
   const [init, setInit] = useState(false); //프로그램 초기화하길 기다려야함. 그다음에 isLogin이 바뀌도록
   const [isLogin, setIsLogin] = useState(false);
+  const [userObj, setUserObj] = useState(null);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
         setIsLogin(true);
+        setUserObj(user);
       } else {
         setIsLogin(false);
       }
@@ -21,7 +23,15 @@ function App() {
   // setInterval(() => {
   //   console.log(auth.currentUser);
   // }, 2000);
-  return <>{init ? <Router isLogin={isLogin} /> : "Initializing....."}</>;
+  return (
+    <>
+      {init ? (
+        <Router isLogin={isLogin} userObj={userObj} />
+      ) : (
+        "Initializing....."
+      )}
+    </>
+  );
 }
 
 export default App;

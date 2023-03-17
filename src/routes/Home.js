@@ -1,35 +1,54 @@
 import React, { useEffect, useState } from "react";
 import { dbService } from "../myBase";
-import { collection, addDoc, getDocs, query } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  onSnapshot,
+  orderBy,
+  getFirestore,
+} from "firebase/firestore";
 
-const Home = () => {
+const Home = ({ userObj }) => {
   const [content, setContent] = useState("");
   const [contents, setContents] = useState([]);
 
-  const getFweets = async () => {
-    const dbFweets = query(collection(dbService, "fweets"));
-    const querySnapshot = await getDocs(dbFweets);
-    querySnapshot.forEach((doc) => {
-      const fweetObject = {
-        ...doc.data(),
-        id: doc.id,
-      };
-      setContents((prev) => [fweetObject, ...prev]);
-    });
-  };
+  // const getFweets = async () => {
+  //   const dbFweets = query(collection(dbService, "fweets"));
+  //   const querySnapshot = await getDocs(dbFweets);
+  //   querySnapshot.forEach((doc) => {
+  //     const fweetObject = {
+  //       ...doc.data(),
+  //       id: doc.id,
+  //     };
+  //     setContents((prev) => [fweetObject, ...prev]);
+  //   });
+  // };
 
   useEffect(() => {
-    getFweets();
+    const q = query(collection(dbService, "fweets"));
+    onSnapshot(q, (snapshot) => {
+      const fweetArray = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setContents(fweetArray);
+    });
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const docRef = await addDoc(collection(dbService, "fweets"), {
-      content,
-      createAt: Date.now(),
-    });
-    setContent(docRef);
-    console.log(content);
+    try {
+      const docRef = await addDoc(collection(dbService, "fweets"), {
+        text: content,
+        createAt: Date.now(),
+        creatorId: userObj.uid,
+      });
+      setContent(docRef);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleContents = (event) => {
@@ -54,7 +73,7 @@ const Home = () => {
         <div>
           {contents.map((fweet) => (
             <div key={fweet.id}>
-              <h4>{fweet.contents}</h4>
+              <h4>{fweet.text}</h4>
             </div>
           ))}
         </div>

@@ -3,12 +3,11 @@ import { dbService } from "../myBase";
 import {
   collection,
   addDoc,
-  getDocs,
   query,
   onSnapshot,
   orderBy,
-  getFirestore,
 } from "firebase/firestore";
+import Fweet from "../components/Fweet";
 
 const Home = ({ userObj }) => {
   const [content, setContent] = useState("");
@@ -72,9 +71,11 @@ const Home = ({ userObj }) => {
         </form>
         <div>
           {contents.map((fweet) => (
-            <div key={fweet.id}>
-              <h4>{fweet.text}</h4>
-            </div>
+            <Fweet
+              key={fweet.id}
+              fweetObj={fweet}
+              isOwner={fweet.creatorId === userObj.uid}
+            />
           ))}
         </div>
       </div>

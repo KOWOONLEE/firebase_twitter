@@ -21,6 +21,10 @@ const Fweet = ({ fweetObj, isOwner }) => {
 
   const submitEdit = async (e) => {
     e.preventDefault();
+    await updateDoc(FweetTextRef, {
+      text: editedFweet,
+    });
+    setEditing(false);
   };
   const editFweet = (event) => {
     const {
@@ -47,7 +51,8 @@ const Fweet = ({ fweetObj, isOwner }) => {
           </div>
         ) : (
           <div>
-            <h4>{fweetObj.text}</h4>
+            <p>{fweetObj.text}</p>
+            {/* <p>{fweetObj.id}</p> */}
             {isOwner && (
               <div>
                 <button onClick={handleDelete}>Delete</button>

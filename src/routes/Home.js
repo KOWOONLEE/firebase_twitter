@@ -56,6 +56,14 @@ const Home = ({ userObj }) => {
     } = event;
     setContent(value);
   };
+
+  const onFileChange = (event) => {
+    const {
+      target: { files },
+    } = event;
+    const theFile = files[0];
+    console.log(theFile);
+  };
   return (
     <>
       <div>
@@ -67,6 +75,7 @@ const Home = ({ userObj }) => {
             placeholder="What's on your mind?"
             maxLength={120}
           />
+          <input onChange={onFileChange} type="file" accept="image/*" />
           <input type="submit" value="Fweet" />
         </form>
         <div>

@@ -63,6 +63,11 @@ const Home = ({ userObj }) => {
     } = event;
     const theFile = files[0];
     console.log(theFile);
+    const reader = new FileReader();
+    reader.onloadend = (finishedEvent) => {
+      console.log(finishedEvent);
+    };
+    reader.readAsDataURL(theFile);
   };
   return (
     <>

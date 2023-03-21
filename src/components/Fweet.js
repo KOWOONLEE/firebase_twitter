@@ -53,6 +53,14 @@ const Fweet = ({ fweetObj, isOwner }) => {
           <div>
             <p>{fweetObj.text}</p>
             {/* <p>{fweetObj.id}</p> */}
+            {fweetObj.fileUrl && (
+              <img
+                src={fweetObj.fileUrl}
+                alt="attachmentImg"
+                width="100px"
+                height="100px"
+              />
+            )}
             {isOwner && (
               <div>
                 <button onClick={handleDelete}>Delete</button>

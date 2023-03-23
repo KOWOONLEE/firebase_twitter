@@ -7,7 +7,7 @@ const Fweet = ({ fweetObj, isOwner }) => {
   const [editing, setEditing] = useState(false);
   const [editedFweet, setEditedFweet] = useState(fweetObj.text);
   const FweetTextRef = doc(dbService, "fweets", `${fweetObj.id}`);
-  console.log(fweetObj, editedFweet);
+  // console.log(fweetObj, editedFweet);
 
   const handleDelete = async () => {
     const ok = window.confirm("Are you sure?");

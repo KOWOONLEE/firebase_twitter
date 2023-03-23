@@ -7,11 +7,37 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [userObj, setUserObj] = useState(null);
 
+  //userobj를 firebase로 업데이트 해줘야함.
+  //useState값이 변경되면 바로 변경되지가 않음.
+  //왜냐면 auth.currentUser 덩치가 너무 커서. 그래서 object크기를 줄여줘야함
+  //setUserObj 필요한 것만 추리기 (전체 가져오지 말고) uid, displayName, updateProfile()
+
+  const refreshUser = () => {
+    // console.log(auth.currentUser);
+    //setUserObj(auth.currentUser)
+    const user = auth.currentUser;
+    setUserObj({
+      uid: user.uid,
+      displayName: user.displayName,
+      updateProfile: (args) => {
+        user.updateProfile(args);
+      },
+    });
+  };
+
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
         setIsLogin(true);
-        setUserObj(user);
+        // setUserObj(user);
+        setUserObj({
+          uid: user.uid,
+          displayName: user.displayName,
+          //내가 원하는 함수를 얻기 위한 중간 함수
+          updateProfile: (args) => {
+            user.updateProfile(args);
+          },
+        });
       } else {
         setIsLogin(false);
       }
@@ -26,7 +52,7 @@ function App() {
   return (
     <>
       {init ? (
-        <Router isLogin={isLogin} userObj={userObj} />
+        <Router refreshUser={refreshUser} isLogin={isLogin} userObj={userObj} />
       ) : (
         "Initializing....."
       )}

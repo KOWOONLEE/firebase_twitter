@@ -40,6 +40,7 @@ function App() {
         });
       } else {
         setIsLogin(false);
+        setUserObj(null);
       }
       setInit(true); //setInit이 false라면 router를 숨길 것이서 이렇게 처리함.
     });

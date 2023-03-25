@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import { dbService, storageService } from "../myBase";
 import {
@@ -103,8 +104,8 @@ const Home = ({ userObj }) => {
   };
 
   return (
-    <>
-      <div>
+    <StyledHome>
+      <div className="homeWrap">
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -132,7 +133,17 @@ const Home = ({ userObj }) => {
           ))}
         </div>
       </div>
-    </>
+    </StyledHome>
   );
 };
 export default Home;
+
+const StyledHome = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .homeWrap {
+    display: flex;
+  }
+`;

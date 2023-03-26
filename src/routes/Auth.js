@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import styled from "styled-components";
+import { FcGoogle } from "react-icons/fc";
+
 import { auth } from "../myBase";
 import {
   createUserWithEmailAndPassword,
@@ -59,7 +62,7 @@ const Auth = () => {
     console.log(data);
   };
   return (
-    <>
+    <StyledAuth>
       <div>
         <div onClick={selectToggle}>
           {newAccount ? "Sign-in" : "Create Account"}
@@ -97,7 +100,13 @@ const Auth = () => {
           Continue with Github
         </button>
       </div>
-    </>
+    </StyledAuth>
   );
 };
 export default Auth;
+
+const StyledAuth = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

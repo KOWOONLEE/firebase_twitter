@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { theme } from "../color";
 import { v4 as uuidv4 } from "uuid";
+import { AiOutlineArrowRight } from "react-icons/ai";
 import { dbService, storageService } from "../myBase";
 import {
   collection,
@@ -106,24 +108,42 @@ const Home = ({ userObj }) => {
   return (
     <StyledHome>
       <div className="homeWrap">
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={content}
-            onChange={handleContents}
-            placeholder="What's on your mind?"
-            maxLength={120}
-          />
-          <input onChange={onFileChange} type="file" accept="image/*" />
-          <input type="submit" value="Fweet" />
-          {fileAddress && (
-            <div>
-              <img src={fileAddress} width="50px" height="50px" alt="img" />
-              <button onClick={onClearPhotoClick}>Clear</button>
+        <div className="mindInputWrap">
+          <form onSubmit={handleSubmit}>
+            <div className="addForm">
+              <input
+                className="mindInput"
+                type="text"
+                value={content}
+                onChange={handleContents}
+                placeholder="What's on your mind?"
+                maxLength={120}
+              />
+              <button className="submitInput" type="submit" value="Fweet">
+                <AiOutlineArrowRight />
+              </button>
             </div>
-          )}
-        </form>
-        <div>
+            <div className="fileAdd">
+              <input onChange={onFileChange} type="file" accept="image/*" />
+            </div>
+            <div className="imgPreview">
+              {fileAddress && (
+                <div className="imgWrap">
+                  <img
+                    src={fileAddress}
+                    width="100px"
+                    height="100px"
+                    alt="img"
+                  />
+                  <div className="clearButton">
+                    <button onClick={onClearPhotoClick}>Clear</button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </form>
+        </div>
+        <div className="fweetWrap">
           {contents.map((fweet) => (
             <Fweet
               key={fweet.id}
@@ -140,10 +160,75 @@ export default Home;
 
 const StyledHome = styled.div`
   display: flex;
+  width: 100%;
+  height: 97vh;
   align-items: center;
   justify-content: center;
 
   .homeWrap {
+    align-items: center;
+    justify-content: center;
+  }
+  .mindInputWrap {
+    align-items: center;
+    justify-content: center;
+  }
+  .addForm {
     display: flex;
+    justify-content: center;
+    margin-bottom: 2vh;
+  }
+  .mindInput {
+    width: 18vw;
+    height: 3vh;
+    border-radius: 20px;
+    border: none;
+    padding-left: 1vw;
+    background-color: ${theme.beige};
+  }
+  .submitInput {
+    display: flex;
+    width: 25px;
+    height: 25px;
+    border: none;
+    border-radius: 50%;
+    text-align: center;
+    align-items: center;
+    background-color: ${theme.red};
+
+    svg {
+      width: 2vw;
+      height: 2vh;
+      stroke-width: 20;
+    }
+  }
+  .fileAdd {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .imgPreview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 3vh;
+  }
+
+  .clearButton {
+    display: flex;
+    justify-content: center;
+
+    button {
+      width: 6vw;
+      height: 3vh;
+      background-color: ${theme.beige};
+      border: none;
+      cursor: pointer;
+    }
+  }
+  .imgWrap {
+    img {
+    }
   }
 `;

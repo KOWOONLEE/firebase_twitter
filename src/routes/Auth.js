@@ -158,7 +158,7 @@ const StyledAuth = styled.div`
   .selectToggle {
     display: flex;
     justify-content: center;
-    font-size: 1.1em;
+    font-size: 1.2em;
     margin: 2vh;
     text-decoration: underline;
     color: ${theme.red};

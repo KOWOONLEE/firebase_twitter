@@ -30,14 +30,15 @@ export default Navigation;
 const StyledNavigation = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
   justify-content: center;
   align-items: center;
   background-color: ${theme.bg};
+  padding-top: 20vh;
 
   ul {
     display: flex;
     list-style: none;
+    padding: 0;
 
     li {
       width: 6vw;

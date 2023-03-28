@@ -30,7 +30,6 @@ export default Router;
 
 const StyledRouter = styled.div`
   width: 100%;
-
   justify-content: center;
   align-items: center;
   background-color: ${theme.bg};

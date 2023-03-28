@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "../color";
 import { v4 as uuidv4 } from "uuid";
-import { AiOutlineArrowRight } from "react-icons/ai";
+import { AiOutlineArrowRight, AiOutlinePlus } from "react-icons/ai";
 import { dbService, storageService } from "../myBase";
 import {
   collection,
@@ -124,7 +124,19 @@ const Home = ({ userObj }) => {
               </button>
             </div>
             <div className="fileAdd">
-              <input onChange={onFileChange} type="file" accept="image/*" />
+              <label htmlFor="attach-file" className="factoryInput__label">
+                <span>Add Photos</span>
+                <AiOutlinePlus />
+              </label>
+              <input
+                id="attach-file"
+                onChange={onFileChange}
+                type="file"
+                accept="image/*"
+                style={{
+                  opacity: 0,
+                }}
+              />
             </div>
             <div className="imgPreview">
               {fileAddress && (
@@ -161,9 +173,9 @@ export default Home;
 const StyledHome = styled.div`
   display: flex;
   width: 100%;
-  height: 97vh;
-  align-items: center;
+  height: 65vh;
   justify-content: center;
+  padding-top: 10px;
 
   .homeWrap {
     align-items: center;
@@ -204,15 +216,32 @@ const StyledHome = styled.div`
   }
   .fileAdd {
     display: flex;
-    justify-content: center;
-    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    label {
+      display: flex;
+      align-items: center;
+      font-size: 1.1em;
+      color: ${theme.red};
+      cursor: pointer;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      text-align: center;
+      align-items: center;
+      margin-left: 15px;
+    }
   }
 
   .imgPreview {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 3vh;
+    margin: 5px;
   }
 
   .clearButton {
@@ -227,8 +256,13 @@ const StyledHome = styled.div`
       cursor: pointer;
     }
   }
-  .imgWrap {
-    img {
+  .fweetWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      text-align: center;
     }
   }
 `;

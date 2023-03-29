@@ -33,7 +33,7 @@ const StyledNavigation = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${theme.bg};
-  padding-top: 20vh;
+  padding-top: 5vh;
 
   ul {
     display: flex;

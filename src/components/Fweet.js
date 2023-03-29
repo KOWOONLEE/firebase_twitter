@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import styled from "styled-components";
+import { theme } from "../color";
+import { BsTrash3 } from "react-icons/bs";
+import { AiOutlineEdit } from "react-icons/ai";
 import { dbService, storageService } from "../myBase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
@@ -35,7 +39,7 @@ const Fweet = ({ fweetObj, isOwner }) => {
     setEditedFweet(value);
   };
   return (
-    <>
+    <StyledFweet>
       <div>
         {editing ? (
           <div>
@@ -52,7 +56,7 @@ const Fweet = ({ fweetObj, isOwner }) => {
             <button onClick={handleEdit}>Cancel</button>
           </div>
         ) : (
-          <div>
+          <div className="fweetText">
             <p>{fweetObj.text}</p>
             {/* <p>{fweetObj.id}</p> */}
             {fweetObj.fileUrl && (
@@ -65,14 +69,57 @@ const Fweet = ({ fweetObj, isOwner }) => {
             )}
             {isOwner && (
               <div>
-                <button onClick={handleDelete}>Delete</button>
-                <button onClick={handleEdit}>Edit</button>
+                <button onClick={handleDelete}>
+                  <BsTrash3 />
+                </button>
+                <button onClick={handleEdit}>
+                  <AiOutlineEdit />
+                </button>
               </div>
             )}
           </div>
         )}
       </div>
-    </>
+    </StyledFweet>
   );
 };
 export default Fweet;
+
+const StyledFweet = styled.div`
+  margin-top: 3vh;
+
+  .fweetText {
+    display: flex;
+    width: 30vw;
+
+    vertical-align: center;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+
+    img {
+      display: inline-block;
+    }
+
+    p {
+      width: 20vw;
+      text-align: left;
+      align-items: center;
+      padding: 3px;
+      color: black;
+    }
+    button {
+      width: 3vw;
+      height: 3vh;
+      border: none;
+      background-color: white;
+
+      svg {
+        width: 2vw;
+        height: 2vh;
+        fill: ${theme.red};
+      }
+    }
+  }
+`;

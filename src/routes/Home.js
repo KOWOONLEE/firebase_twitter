@@ -173,7 +173,7 @@ export default Home;
 const StyledHome = styled.div`
   display: flex;
   width: 100%;
-  height: 65vh;
+  height: 80vh;
   justify-content: center;
   padding-top: 10px;
 
@@ -191,7 +191,7 @@ const StyledHome = styled.div`
     margin-bottom: 2vh;
   }
   .mindInput {
-    width: 18vw;
+    width: 23vw;
     height: 3vh;
     border-radius: 20px;
     border: none;
@@ -207,12 +207,16 @@ const StyledHome = styled.div`
     text-align: center;
     align-items: center;
     background-color: ${theme.red};
+    cursor: pointer;
 
     svg {
       width: 2vw;
       height: 2vh;
       stroke-width: 20;
     }
+  }
+  .submitInput:hover {
+    background-color: ${theme.pink};
   }
   .fileAdd {
     display: flex;
@@ -257,7 +261,7 @@ const StyledHome = styled.div`
     }
   }
   .fweetWrap {
-    display: flex;
+    /* display: flex; */
     align-items: center;
     justify-content: center;
 

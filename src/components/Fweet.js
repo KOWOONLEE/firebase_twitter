@@ -42,7 +42,7 @@ const Fweet = ({ fweetObj, isOwner }) => {
     <StyledFweet>
       <div>
         {editing ? (
-          <div>
+          <div className="editFweet">
             <form onSubmit={submitEdit}>
               <input
                 type="text"
@@ -50,23 +50,26 @@ const Fweet = ({ fweetObj, isOwner }) => {
                 value={editedFweet}
                 required
                 onChange={editFweet}
+                className="editTextInput"
               />
-              <input type="submit" />
+              <input type="submit" value="Update" className="editTextSubmit" />
             </form>
             <button onClick={handleEdit}>Cancel</button>
           </div>
         ) : (
           <div className="fweetText">
-            <p>{fweetObj.text}</p>
-            {/* <p>{fweetObj.id}</p> */}
-            {fweetObj.fileUrl && (
-              <img
-                src={fweetObj.fileUrl}
-                alt="attachmentImg"
-                width="100px"
-                height="100px"
-              />
-            )}
+            <div className="textWrap">
+              <p>{fweetObj.text}</p>
+              {/* <p>{fweetObj.id}</p> */}
+              {fweetObj.fileUrl && (
+                <img
+                  src={fweetObj.fileUrl}
+                  alt="attachmentImg"
+                  width="100px"
+                  height="100px"
+                />
+              )}
+            </div>
             {isOwner && (
               <div>
                 <button onClick={handleDelete}>
@@ -87,20 +90,78 @@ export default Fweet;
 
 const StyledFweet = styled.div`
   margin-top: 3vh;
+  margin-bottom: 3vh;
+  text-align: center;
 
+  .editFweet {
+    display: inline-block;
+    width: 30vw;
+    background-color: white;
+    border-radius: 10px;
+    justify-content: center;
+    vertical-align: center;
+    align-items: center;
+    text-align: center;
+
+    form {
+      text-align: center;
+
+      input {
+        width: 25vw;
+        border-radius: 20px;
+        margin-top: 10px;
+      }
+    }
+    button {
+      width: 25vw;
+      height: 3vh;
+      border: none;
+      border-radius: 20px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      background-color: ${theme.pink};
+      cursor: pointer;
+    }
+  }
+  .editTextInput {
+    height: 5vh;
+    background-color: ${theme.beige};
+    border: 1px solid ${theme.red};
+    border-radius: 20px;
+    text-align: center;
+  }
+  .editTextSubmit {
+    height: 3vh;
+    background-color: ${theme.pink};
+    border: none;
+    cursor: pointer;
+  }
   .fweetText {
     display: flex;
     width: 30vw;
-
     vertical-align: center;
     justify-content: center;
     align-items: center;
     background-color: white;
     border-radius: 10px;
+    border: 2px solid ${theme.red};
 
-    img {
-      display: inline-block;
+    button {
+      width: 3vw;
+      height: 3vh;
+      border: none;
+      background-color: white;
+      cursor: pointer;
+
+      svg {
+        width: 2vw;
+        height: 2vh;
+        fill: ${theme.red};
+      }
     }
+  }
+  .textWrap {
+    display: inline-block;
 
     p {
       width: 20vw;
@@ -108,18 +169,6 @@ const StyledFweet = styled.div`
       align-items: center;
       padding: 3px;
       color: black;
-    }
-    button {
-      width: 3vw;
-      height: 3vh;
-      border: none;
-      background-color: white;
-
-      svg {
-        width: 2vw;
-        height: 2vh;
-        fill: ${theme.red};
-      }
     }
   }
 `;

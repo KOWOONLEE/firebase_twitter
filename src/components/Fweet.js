@@ -166,9 +166,10 @@ const StyledFweet = styled.div`
     p {
       width: 20vw;
       text-align: left;
-      align-items: center;
+      align-items: left;
       padding: 3px;
       color: black;
+      font-weight: 600;
     }
   }
 `;

@@ -105,8 +105,11 @@ const StyledProfile = styled.div`
       border-radius: 20px;
       margin-top: 10px;
       margin-bottom: 10px;
-      background-color: ${theme.pink};
+      background-color: ${theme.red};
       cursor: pointer;
+    }
+    button:hover {
+      background-color: ${theme.pink};
     }
   }
   .editProfileInput {
@@ -122,5 +125,9 @@ const StyledProfile = styled.div`
     border: none;
     cursor: pointer;
     margin-bottom: 5vh;
+  }
+
+  .editProfileSubmit:hover {
+    background-color: ${theme.pink};
   }
 `;

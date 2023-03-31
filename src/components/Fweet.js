@@ -10,9 +10,15 @@ import { ref, deleteObject } from "firebase/storage";
 const Fweet = ({ fweetObj, isOwner }) => {
   const [editing, setEditing] = useState(false);
   const [editedFweet, setEditedFweet] = useState(fweetObj.text);
+  const [checked, setChecked] = useState(false);
   const FweetTextRef = doc(dbService, "fweets", `${fweetObj.id}`);
+
   // console.log(fweetObj, editedFweet);
 
+  const inputChecked = () => {
+    setChecked((prev) => !prev);
+    localStorage.setItem("checkedBox", checked);
+  };
   const handleDelete = async () => {
     const ok = window.confirm("Are you sure?");
     if (ok) {
@@ -59,7 +65,19 @@ const Fweet = ({ fweetObj, isOwner }) => {
         ) : (
           <div className="fweetText">
             <div className="textWrap">
-              <p>{fweetObj.text}</p>
+              <p className={checked ? "checkedOk" : "checkedNo"}>
+                {/* <label
+                  htmlFor="checkbox"
+                  className={checked ? "checkedOk" : "checkedNone"}
+                ></label> */}
+                <input
+                  id="checkbox"
+                  onClick={inputChecked}
+                  type="checkbox"
+                  value={checked}
+                />
+                {fweetObj.text}
+              </p>
               {/* <p>{fweetObj.id}</p> */}
               {fweetObj.fileUrl && (
                 <img
@@ -166,10 +184,13 @@ const StyledFweet = styled.div`
     p {
       width: 20vw;
       text-align: left;
-      align-items: left;
+      /* align-items: left; */
       padding: 3px;
       color: black;
       font-weight: 600;
     }
+  }
+  .checkedOk {
+    text-decoration: line-through;
   }
 `;

@@ -33,6 +33,7 @@ const Home = ({ userObj }) => {
   // };
 
   useEffect(() => {
+    localStorage.getItem("checkedBox");
     const q = query(collection(dbService, "fweets"));
     onSnapshot(q, (snapshot) => {
       const fweetArray = snapshot.docs.map((doc) => ({

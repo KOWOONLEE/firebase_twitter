@@ -52,10 +52,15 @@ const StyledNavigation = styled.div`
         height: 4vh;
         fill: ${theme.red};
       }
+
+      svg:hover {
+        fill: ${theme.pink};
+      }
       div {
         color: black;
         font-size: 15px;
         text-align: center;
+        font-weight: 600;
       }
     }
   }

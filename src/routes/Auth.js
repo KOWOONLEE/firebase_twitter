@@ -4,7 +4,6 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { FiTwitter } from "react-icons/fi";
 import { theme } from "../color";
-
 import { auth } from "../myBase";
 import {
   createUserWithEmailAndPassword,

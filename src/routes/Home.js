@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "../color";
 import { v4 as uuidv4 } from "uuid";
-import { AiOutlineArrowRight, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineArrowRight, AiOutlineCamera } from "react-icons/ai";
 import { dbService, storageService } from "../myBase";
 import {
   collection,
@@ -16,9 +16,17 @@ import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import Fweet from "../components/Fweet";
 
 const Home = ({ userObj }) => {
+  console.log(userObj);
   const [content, setContent] = useState("");
   const [contents, setContents] = useState([]);
   const [fileAddress, setFileAddress] = useState("");
+  const [heartCount, setHeartCount] = useState(0);
+
+  // const inputChecked = () => {
+  //   setChecked((prev) => !prev);
+  //   console.log(checked);
+  //   localStorage.setItem("checkedBox", checked);
+  // };
 
   // const getFweets = async () => {
   //   const dbFweets = query(collection(dbService, "fweets"));
@@ -33,14 +41,15 @@ const Home = ({ userObj }) => {
   // };
 
   useEffect(() => {
-    localStorage.getItem("checkedBox");
     const q = query(collection(dbService, "fweets"));
     onSnapshot(q, (snapshot) => {
       const fweetArray = snapshot.docs.map((doc) => ({
         id: doc.id,
+        heartCount: heartCount,
         ...doc.data(),
       }));
       setContents(fweetArray);
+      console.log();
     });
   }, []);
 
@@ -56,9 +65,11 @@ const Home = ({ userObj }) => {
     }
     const fweetobject = {
       text: content,
+      userName: userObj.displayName,
       createAt: Date.now(),
       creatorId: userObj.uid,
       fileUrl,
+      heartCount: heartCount,
     };
     await addDoc(collection(dbService, "fweets"), fweetobject);
     setContent("");
@@ -127,7 +138,7 @@ const Home = ({ userObj }) => {
             <div className="fileAdd">
               <label htmlFor="attach-file" className="factoryInput__label">
                 <span>Add Photos</span>
-                <AiOutlinePlus />
+                <AiOutlineCamera />
               </label>
               <input
                 id="attach-file"
@@ -162,6 +173,9 @@ const Home = ({ userObj }) => {
               key={fweet.id}
               fweetObj={fweet}
               isOwner={fweet.creatorId === userObj.uid}
+              heartCount={heartCount}
+              setHeartCount={setHeartCount}
+              userObj={userObj}
             />
           ))}
         </div>
@@ -174,7 +188,7 @@ export default Home;
 const StyledHome = styled.div`
   display: flex;
   width: 100%;
-  height: 80vh;
+  /* height: 80vh; */
   justify-content: center;
   padding-top: 10px;
 
@@ -234,8 +248,8 @@ const StyledHome = styled.div`
     }
 
     svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       text-align: center;
       align-items: center;
       margin-left: 15px;
@@ -265,9 +279,5 @@ const StyledHome = styled.div`
     /* display: flex; */
     align-items: center;
     justify-content: center;
-
-    p {
-      text-align: center;
-    }
   }
 `;

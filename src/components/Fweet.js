@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Heart from "./Heart";
 import styled from "styled-components";
 import { theme } from "../color";
 import { BsTrash3 } from "react-icons/bs";
@@ -7,18 +8,14 @@ import { dbService, storageService } from "../myBase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 
-const Fweet = ({ fweetObj, isOwner }) => {
+const Fweet = ({ userObj, fweetObj, isOwner, heartCount, setHeartCount }) => {
+  console.log(fweetObj);
   const [editing, setEditing] = useState(false);
   const [editedFweet, setEditedFweet] = useState(fweetObj.text);
-  const [checked, setChecked] = useState(false);
   const FweetTextRef = doc(dbService, "fweets", `${fweetObj.id}`);
 
   // console.log(fweetObj, editedFweet);
 
-  const inputChecked = () => {
-    setChecked((prev) => !prev);
-    localStorage.setItem("checkedBox", checked);
-  };
   const handleDelete = async () => {
     const ok = window.confirm("Are you sure?");
     if (ok) {
@@ -35,6 +32,7 @@ const Fweet = ({ fweetObj, isOwner }) => {
     e.preventDefault();
     await updateDoc(FweetTextRef, {
       text: editedFweet,
+      userName: userObj.displayName,
     });
     setEditing(false);
   };
@@ -63,41 +61,49 @@ const Fweet = ({ fweetObj, isOwner }) => {
             <button onClick={handleEdit}>Cancel</button>
           </div>
         ) : (
-          <div className="fweetText">
-            <div className="textWrap">
-              <p className={checked ? "checkedOk" : "checkedNo"}>
-                {/* <label
-                  htmlFor="checkbox"
-                  className={checked ? "checkedOk" : "checkedNone"}
-                ></label> */}
-                <input
-                  id="checkbox"
-                  onClick={inputChecked}
-                  type="checkbox"
-                  value={checked}
-                />
-                {fweetObj.text}
-              </p>
-              {/* <p>{fweetObj.id}</p> */}
-              {fweetObj.fileUrl && (
-                <img
-                  src={fweetObj.fileUrl}
-                  alt="attachmentImg"
-                  width="100px"
-                  height="100px"
-                />
+          <div>
+            <div className="heartWrap">
+              <Heart
+                fweetObj={fweetObj}
+                heartCount={heartCount}
+                setHeartCount={setHeartCount}
+              />
+            </div>
+            <div className="fweetText">
+              <div className="textWrap">
+                <div className="userName">{fweetObj.userName}</div>
+                <div className="text">
+                  <p>{fweetObj.text}</p>
+                </div>
+                {/* <p>{fweetObj.id}</p> */}
+                {fweetObj.fileUrl && (
+                  <img
+                    src={fweetObj.fileUrl}
+                    alt="attachmentImg"
+                    width="150px"
+                    height="200px"
+                  />
+                )}
+                <div className="date">
+                  {new Date(fweetObj.createAt).getFullYear()}/
+                  {new Date(fweetObj.createAt).getMonth() + 1}/
+                  {new Date(fweetObj.createAt).getDate()}
+                  {""} {""}
+                  {new Date(fweetObj.createAt).getHours()}:
+                  {new Date(fweetObj.createAt).getMinutes()}
+                </div>
+              </div>
+              {isOwner && (
+                <div className="buttonWrap">
+                  <button onClick={handleDelete}>
+                    <BsTrash3 />
+                  </button>
+                  <button onClick={handleEdit}>
+                    <AiOutlineEdit />
+                  </button>
+                </div>
               )}
             </div>
-            {isOwner && (
-              <div>
-                <button onClick={handleDelete}>
-                  <BsTrash3 />
-                </button>
-                <button onClick={handleEdit}>
-                  <AiOutlineEdit />
-                </button>
-              </div>
-            )}
           </div>
         )}
       </div>
@@ -107,7 +113,7 @@ const Fweet = ({ fweetObj, isOwner }) => {
 export default Fweet;
 
 const StyledFweet = styled.div`
-  margin-top: 3vh;
+  margin-top: 2vh;
   margin-bottom: 3vh;
   text-align: center;
 
@@ -154,15 +160,55 @@ const StyledFweet = styled.div`
     border: none;
     cursor: pointer;
   }
+
+  .heartWrap {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  }
+
   .fweetText {
     display: flex;
-    width: 30vw;
+    width: 35vw;
     vertical-align: center;
     justify-content: center;
     align-items: center;
     background-color: white;
     border-radius: 10px;
     border: 2px solid ${theme.red};
+    box-shadow: 3px 3px 3px ${theme.red};
+  }
+  .textWrap {
+    /* display: inline-block; */
+    float: left;
+    width: 26vw;
+
+    p {
+      text-align: left;
+      /* align-items: left; */
+      padding: 3px;
+      color: black;
+      font-weight: 600;
+    }
+    img {
+      margin-bottom: 10px;
+    }
+  }
+  .userName {
+    margin-top: 10px;
+  }
+  .text {
+    display: flex;
+    justify-content: space-around;
+
+    svg {
+      width: 2.5vw;
+      height: 2.5vh;
+    }
+  }
+  .buttonWrap {
+    display: flex;
+    width: 5vw;
 
     button {
       width: 3vw;
@@ -178,19 +224,8 @@ const StyledFweet = styled.div`
       }
     }
   }
-  .textWrap {
-    display: inline-block;
-
-    p {
-      width: 20vw;
-      text-align: left;
-      /* align-items: left; */
-      padding: 3px;
-      color: black;
-      font-weight: 600;
-    }
-  }
-  .checkedOk {
-    text-decoration: line-through;
+  .date {
+    margin-bottom: 10px;
+    font-size: 0.9em;
   }
 `;

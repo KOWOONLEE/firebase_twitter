@@ -33,4 +33,5 @@ const StyledRouter = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${theme.bg};
+  overflow-y: auto;
 `;

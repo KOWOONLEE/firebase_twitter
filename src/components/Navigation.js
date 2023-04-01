@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "../color";
 import { FiTwitter, FiUser } from "react-icons/fi";
-import { BsFillPersonFill } from "react-icons/bs";
 
 const Navigation = ({ userObj }) => {
   return (

@@ -12,11 +12,9 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
-
 import Fweet from "../components/Fweet";
 
 const Home = ({ userObj }) => {
-  console.log(userObj);
   const [content, setContent] = useState("");
   const [contents, setContents] = useState([]);
   const [fileAddress, setFileAddress] = useState("");
@@ -49,7 +47,6 @@ const Home = ({ userObj }) => {
         ...doc.data(),
       }));
       setContents(fweetArray);
-      console.log();
     });
   }, []);
 
@@ -188,7 +185,7 @@ export default Home;
 const StyledHome = styled.div`
   display: flex;
   width: 100%;
-  /* height: 80vh; */
+  height: 78vh;
   justify-content: center;
   padding-top: 10px;
 

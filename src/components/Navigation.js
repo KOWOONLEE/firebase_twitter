@@ -11,6 +11,7 @@ const Navigation = ({ userObj }) => {
           <li>
             <Link to="/">
               <FiTwitter />
+              <div>Home</div>
             </Link>
           </li>
           <li>

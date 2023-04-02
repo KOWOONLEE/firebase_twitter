@@ -9,7 +9,6 @@ import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 
 const Fweet = ({ userObj, fweetObj, isOwner, heartCount, setHeartCount }) => {
-  console.log(fweetObj);
   const [editing, setEditing] = useState(false);
   const [editedFweet, setEditedFweet] = useState(fweetObj.text);
   const FweetTextRef = doc(dbService, "fweets", `${fweetObj.id}`);
@@ -63,19 +62,18 @@ const Fweet = ({ userObj, fweetObj, isOwner, heartCount, setHeartCount }) => {
         ) : (
           <div>
             <div className="heartWrap">
-              <Heart
+              {/* <Heart
                 fweetObj={fweetObj}
                 heartCount={heartCount}
                 setHeartCount={setHeartCount}
-              />
+              /> */}
             </div>
             <div className="fweetText">
               <div className="textWrap">
-                <div className="userName">{fweetObj.userName}</div>
+                <div className="userName">by {fweetObj.userName}</div>
                 <div className="text">
                   <p>{fweetObj.text}</p>
                 </div>
-                {/* <p>{fweetObj.id}</p> */}
                 {fweetObj.fileUrl && (
                   <img
                     src={fweetObj.fileUrl}
@@ -115,7 +113,6 @@ export default Fweet;
 const StyledFweet = styled.div`
   margin-top: 2vh;
   margin-bottom: 3vh;
-  text-align: center;
 
   .editFweet {
     display: inline-block;
@@ -169,7 +166,7 @@ const StyledFweet = styled.div`
 
   .fweetText {
     display: flex;
-    width: 35vw;
+    width: 30vw;
     vertical-align: center;
     justify-content: center;
     align-items: center;
@@ -181,7 +178,7 @@ const StyledFweet = styled.div`
   .textWrap {
     /* display: inline-block; */
     float: left;
-    width: 26vw;
+    width: 22vw;
 
     p {
       text-align: left;
@@ -227,5 +224,6 @@ const StyledFweet = styled.div`
   .date {
     margin-bottom: 10px;
     font-size: 0.9em;
+    text-align: center;
   }
 `;

@@ -52,17 +52,18 @@ const Auth = () => {
 
   const onSocialClick = async (event) => {
     const {
-      target: { name },
+      currentTarget: { name },
     } = event;
     let provider;
+
     if (name === "google") {
       provider = new GoogleAuthProvider();
     } else if (name === "github") {
       provider = new GithubAuthProvider();
     }
-    const data = await signInWithPopup(auth, provider);
-    console.log(data);
+    await signInWithPopup(auth, provider);
   };
+
   return (
     <StyledAuth>
       <div className="AuthWrap">
@@ -205,6 +206,7 @@ const StyledAuth = styled.div`
       padding: 5px;
       background-color: ${theme.beige};
       border-radius: 20px;
+      cursor: pointer;
 
       span {
         margin-left: 10px;

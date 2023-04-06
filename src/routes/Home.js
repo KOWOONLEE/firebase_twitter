@@ -19,6 +19,7 @@ const Home = ({ userObj }) => {
   const [contents, setContents] = useState([]);
   const [fileAddress, setFileAddress] = useState("");
   const [heartCount, setHeartCount] = useState(0);
+  const [inputValue, setInputValue] = useState("");
 
   // const inputChecked = () => {
   //   setChecked((prev) => !prev);
@@ -112,6 +113,8 @@ const Home = ({ userObj }) => {
 
   const onClearPhotoClick = () => {
     setFileAddress(null);
+    setInputValue("");
+    console.log(userObj);
   };
 
   return (
@@ -142,6 +145,7 @@ const Home = ({ userObj }) => {
                 onChange={onFileChange}
                 type="file"
                 accept="image/*"
+                value={inputValue}
                 style={{
                   opacity: 0,
                 }}

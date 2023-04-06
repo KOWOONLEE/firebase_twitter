@@ -7,7 +7,7 @@ import { collection, where, query, getDocs, orderBy } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 
 const Profile = ({ refreshUser, userObj }) => {
-  const [displayName, setDisplayName] = useState(userObj.displayName);
+  const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
   const navigate = useNavigate();
 
   const onLogOutClick = () => {
@@ -39,14 +39,14 @@ const Profile = ({ refreshUser, userObj }) => {
     const {
       target: { value },
     } = event;
-    setDisplayName(value);
+    setNewDisplayName(value);
   };
 
   const onSubmitProfile = async (event) => {
     event.preventDefault();
-    if (displayName !== userObj.displayName) {
+    if (newDisplayName !== userObj.displayName) {
       await updateProfile(auth.currentUser, {
-        displayName: displayName,
+        displayName: newDisplayName,
       });
       refreshUser();
     }
@@ -59,7 +59,7 @@ const Profile = ({ refreshUser, userObj }) => {
             type="text"
             placeholder="Display Name"
             onChange={onChangeProfile}
-            value={displayName}
+            value={newDisplayName}
             className="editProfileInput"
           />
           <input

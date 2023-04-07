@@ -40,11 +40,13 @@ const Home = ({ userObj }) => {
   // };
 
   useEffect(() => {
-    const q = query(collection(dbService, "fweets"));
+    const q = query(
+      collection(dbService, "fweets"),
+      orderBy("createdAt", "desc")
+    );
     onSnapshot(q, (snapshot) => {
       const fweetArray = snapshot.docs.map((doc) => ({
         id: doc.id,
-        heartCount: heartCount,
         ...doc.data(),
       }));
       setContents(fweetArray);
@@ -64,7 +66,7 @@ const Home = ({ userObj }) => {
     const fweetobject = {
       text: content,
       userName: userObj.displayName,
-      createAt: Date.now(),
+      createdAt: Date.now(),
       creatorId: userObj.uid,
       fileUrl,
       heartCount: heartCount,

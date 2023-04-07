@@ -83,12 +83,12 @@ const Fweet = ({ userObj, fweetObj, isOwner, heartCount, setHeartCount }) => {
                   />
                 )}
                 <div className="date">
-                  {new Date(fweetObj.createAt).getFullYear()}/
-                  {new Date(fweetObj.createAt).getMonth() + 1}/
-                  {new Date(fweetObj.createAt).getDate()}
+                  {new Date(fweetObj.createdAt).getFullYear()}/
+                  {new Date(fweetObj.createdAt).getMonth() + 1}/
+                  {new Date(fweetObj.createdAt).getDate()}
                   {""} {""}
-                  {new Date(fweetObj.createAt).getHours()}:
-                  {new Date(fweetObj.createAt).getMinutes()}
+                  {new Date(fweetObj.createdAt).getHours()}:
+                  {new Date(fweetObj.createdAt).getMinutes()}
                 </div>
               </div>
               {isOwner && (

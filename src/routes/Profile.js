@@ -23,8 +23,8 @@ const Profile = ({ refreshUser, userObj }) => {
     // );
     const q = query(
       collection(dbService, "fweets"),
-      where("creatorId", "==", `${userObj.uid}`)
-      // orderBy("createdAt")
+      where("creatorId", "==", `${userObj.uid}`),
+      orderBy("createdAt")
     );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {

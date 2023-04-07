@@ -3,13 +3,15 @@ import styled from "styled-components";
 import { theme } from "../color";
 import { v4 as uuidv4 } from "uuid";
 import { AiOutlineArrowRight, AiOutlineCamera } from "react-icons/ai";
-import { dbService, storageService } from "../myBase";
+import { dbService, storageService, auth } from "../myBase";
+
 import {
   collection,
   addDoc,
   query,
   onSnapshot,
   orderBy,
+  where,
 } from "firebase/firestore";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import Fweet from "../components/Fweet";
@@ -20,17 +22,37 @@ const Home = ({ userObj }) => {
   const [fileAddress, setFileAddress] = useState("");
   const [inputValue, setInputValue] = useState("");
 
+  // useEffect(() => {
+  //   const q = query(
+  //     collection(dbService, "fweets"),
+  //     // where("request.auth", "==", userObj.uid),
+  //     orderBy("createdAt", "desc")
+  //   );
+  //   onSnapshot(q, (snapshot) => {
+  //     const fweetArray = snapshot.docs.map((doc) => ({
+  //       id: doc.id,
+  //       ...doc.data(),
+  //     }));
+  //     setContents(fweetArray);
+  //   });
+  // }, []);
   useEffect(() => {
     const q = query(
       collection(dbService, "fweets"),
+      // where("request.auth", "==", userObj.uid),
       orderBy("createdAt", "desc")
     );
-    onSnapshot(q, (snapshot) => {
+    const unsubscribe = onSnapshot(q, (snapshot) => {
       const fweetArray = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
       setContents(fweetArray);
+    });
+    auth.onAuthStateChanged((user) => {
+      if (user == null) {
+        unsubscribe();
+      }
     });
   }, []);
 

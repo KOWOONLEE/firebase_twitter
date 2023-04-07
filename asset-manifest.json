@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/firebase_twitter/static/js/main.cf0ba8dc.js",
+    "main.js": "/firebase_twitter/static/js/main.f65fa28b.js",
     "index.html": "/firebase_twitter/index.html",
-    "main.cf0ba8dc.js.map": "/firebase_twitter/static/js/main.cf0ba8dc.js.map"
+    "main.f65fa28b.js.map": "/firebase_twitter/static/js/main.f65fa28b.js.map"
   },
   "entrypoints": [
-    "static/js/main.cf0ba8dc.js"
+    "static/js/main.f65fa28b.js"
   ]
 }

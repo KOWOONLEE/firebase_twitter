@@ -16,11 +16,6 @@ const Profile = ({ refreshUser, userObj }) => {
   };
 
   const getMyFweets = async () => {
-    // const fweets = collection(dbService, "fweets").where(
-    //   "creatorId",
-    //   "==",
-    //   userObj.uid
-    // );
     const q = query(
       collection(dbService, "fweets"),
       where("creatorId", "==", `${userObj.uid}`),

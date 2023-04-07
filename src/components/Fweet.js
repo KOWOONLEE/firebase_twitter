@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Heart from "./Heart";
 import styled from "styled-components";
 import { theme } from "../color";
 import { BsTrash3 } from "react-icons/bs";
@@ -8,18 +7,18 @@ import { dbService, storageService } from "../myBase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 
-const Fweet = ({ userObj, fweetObj, isOwner, heartCount, setHeartCount }) => {
+const Fweet = ({ userObj, fweetObj, isOwner }) => {
   const [editing, setEditing] = useState(false);
   const [editedFweet, setEditedFweet] = useState(fweetObj.text);
   const FweetTextRef = doc(dbService, "fweets", `${fweetObj.id}`);
-
-  // console.log(fweetObj, editedFweet);
 
   const handleDelete = async () => {
     const ok = window.confirm("Are you sure?");
     if (ok) {
       await deleteDoc(FweetTextRef);
-      await deleteObject(ref(storageService, fweetObj.fileUrl));
+      if (fweetObj.fileUrl !== "") {
+        await deleteObject(ref(storageService, fweetObj.fileUrl));
+      }
     }
   };
 
@@ -61,27 +60,22 @@ const Fweet = ({ userObj, fweetObj, isOwner, heartCount, setHeartCount }) => {
           </div>
         ) : (
           <div>
-            <div className="heartWrap">
-              {/* <Heart
-                fweetObj={fweetObj}
-                heartCount={heartCount}
-                setHeartCount={setHeartCount}
-              /> */}
-            </div>
             <div className="fweetText">
               <div className="textWrap">
                 <div className="userName">by {fweetObj.userName}</div>
                 <div className="text">
                   <p>{fweetObj.text}</p>
                 </div>
-                {fweetObj.fileUrl && (
-                  <img
-                    src={fweetObj.fileUrl}
-                    alt="attachmentImg"
-                    width="150px"
-                    height="200px"
-                  />
-                )}
+                <div className="imgWrap">
+                  {fweetObj.fileUrl && (
+                    <img
+                      src={fweetObj.fileUrl}
+                      alt="attachmentImg"
+                      width="150px"
+                      height="200px"
+                    />
+                  )}
+                </div>
                 <div className="date">
                   {new Date(fweetObj.createdAt).getFullYear()}/
                   {new Date(fweetObj.createdAt).getMonth() + 1}/
@@ -202,6 +196,10 @@ const StyledFweet = styled.div`
       width: 2.5vw;
       height: 2.5vh;
     }
+  }
+  .imgWrap {
+    display: flex;
+    justify-content: center;
   }
   .buttonWrap {
     display: flex;

@@ -18,26 +18,7 @@ const Home = ({ userObj }) => {
   const [content, setContent] = useState("");
   const [contents, setContents] = useState([]);
   const [fileAddress, setFileAddress] = useState("");
-  const [heartCount, setHeartCount] = useState(0);
   const [inputValue, setInputValue] = useState("");
-
-  // const inputChecked = () => {
-  //   setChecked((prev) => !prev);
-  //   console.log(checked);
-  //   localStorage.setItem("checkedBox", checked);
-  // };
-
-  // const getFweets = async () => {
-  //   const dbFweets = query(collection(dbService, "fweets"));
-  //   const querySnapshot = await getDocs(dbFweets);
-  //   querySnapshot.forEach((doc) => {
-  //     const fweetObject = {
-  //       ...doc.data(),
-  //       id: doc.id,
-  //     };
-  //     setContents((prev) => [fweetObject, ...prev]);
-  //   });
-  // };
 
   useEffect(() => {
     const q = query(
@@ -60,7 +41,6 @@ const Home = ({ userObj }) => {
     if (fileAddress !== "") {
       const fileRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
       const response = await uploadString(fileRef, fileAddress, "data_url");
-      // console.log(await getDownloadURL(response.ref));
       fileUrl = await getDownloadURL(response.ref);
     }
     const fweetobject = {
@@ -69,22 +49,11 @@ const Home = ({ userObj }) => {
       createdAt: Date.now(),
       creatorId: userObj.uid,
       fileUrl,
-      heartCount: heartCount,
     };
     await addDoc(collection(dbService, "fweets"), fweetobject);
     setContent("");
     setFileAddress("");
   };
-  // try {
-  //   const docRef = await addDoc(collection(dbService, "fweets"), {
-  //     text: content,
-  //     createAt: Date.now(),
-  //     creatorId: userObj.uid,
-  //   });
-  //   setContent(docRef);
-  // } catch (error) {
-  //   console.log(error);
-  // }
 
   const handleContents = (event) => {
     const {
@@ -98,11 +67,9 @@ const Home = ({ userObj }) => {
       target: { files },
     } = event;
     const theFile = files[0];
-    // console.log(theFile);
     const reader = new FileReader();
     //파일로딩이 끝날떄 finishedevent를 갖게 됨
     reader.onloadend = (finishedEvent) => {
-      // console.log(finishedEvent);
       const {
         currentTarget: { result },
       } = finishedEvent;
@@ -176,8 +143,6 @@ const Home = ({ userObj }) => {
               key={fweet.id}
               fweetObj={fweet}
               isOwner={fweet.creatorId === userObj.uid}
-              heartCount={heartCount}
-              setHeartCount={setHeartCount}
               userObj={userObj}
             />
           ))}
